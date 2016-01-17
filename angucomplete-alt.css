@@ -11,18 +11,19 @@
   border-width: 1px;
   border-style: solid;
   border-radius: 2px;
-  width: 250px;
-  padding: 6px;
+  width: 100%;
   cursor: pointer;
   z-index: 9999;
   position: absolute;
-  margin-top: -6px;
-  background-color: #ffffff;
+  margin-top: -1px;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1)
 }
 
-.angucomplete-searching {
-  color: #acacac;
-  font-size: 14px;
+.angucomplete-no-results {
+  color: #ccc;
+  font-size: 12px;
+  padding: 4px 6px;
 }
 
 .angucomplete-description {
@@ -30,15 +31,15 @@
 }
 
 .angucomplete-row {
-  padding: 5px;
-  color: #000000;
-  margin-bottom: 4px;
+  padding: 4px 6px;
+  color: #000;
   clear: both;
 }
 
 .angucomplete-selected-row {
-  background-color: lightblue;
-  color: #ffffff;
+  background: #1385e5;
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4)
 }
 
 .angucomplete-image-holder {
@@ -93,6 +94,18 @@
   display: block;
   text-align: center;
   cursor: pointer;
+}
+.angucomplete-loading {
+  padding: 3px 0 2px;
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  right: 3px;
+  width: 30px;
+  z-index: 10 !important;
+  display: block;
+  text-align: center;
+  background: url('./fb-loading.gif') right top no-repeat;
 }
 .angucomplete-clear:hover {
   background: rgba(0,0,0,.2);
