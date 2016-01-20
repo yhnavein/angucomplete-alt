@@ -46,7 +46,7 @@
     $templateCache.put(TEMPLATE_URL,
         '<div class="angucomplete-holder" ng-class="{\'angucomplete-dropdown-visible\': showDropdown}">' +
         '  <input id="{{id}}_value" name="{{inputName}}" ng-class="{\'angucomplete-input-not-empty\': notEmpty}" ng-model="searchStr" ng-disabled="disableInput || selectedObject" type="{{inputType}}" placeholder="{{placeholder}}" maxlength="{{maxlength}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)"/>' +
-        '  <div id="{{id}}_dropdown" class="angucomplete-dropdown" ng-show="showDropdown">' +
+        '  <div id="{{id}}_dropdown" class="angucomplete-dropdown" ng-show="showDropdown && !selectedObject">' +
         '    <div class="angucomplete-no-results" ng-show="!searching && (!results || results.length == 0)" ng-bind="textNoResults"></div>' +
         '    <div class="angucomplete-row" ng-repeat="result in results" ng-click="selectResult(result)" ng-mouseenter="hoverRow($index)" ng-class="{\'angucomplete-selected-row\': $index == currentIndex}">' +
         '      <div ng-if="imageField" class="angucomplete-image-holder">' +
@@ -361,7 +361,7 @@
         var row = null;
         var rowTop = null;
 
-        if (which === KEY_EN && scope.results) {
+        if (which === KEY_EN && scope.results && scope.results.length > 0) {
           if (scope.currentIndex >= 0 && scope.currentIndex < scope.results.length) {
             event.preventDefault();
             scope.selectResult(scope.results[scope.currentIndex]);
@@ -369,6 +369,10 @@
             handleOverrideSuggestions(event);
             clearResults();
           }
+          scope.$apply();
+        } else if (which === KEY_EN && scope.searchStr.length > 0 && scope.results.length === 0) {
+          (scope.onAddNewClick || angular.noop)();
+          clearResults();
           scope.$apply();
         } else if (which === KEY_DW && scope.results) {
           event.preventDefault();
