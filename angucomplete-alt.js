@@ -120,6 +120,12 @@
         }
       });
 
+      scope.$watch('selectedObject', function(newval, oldval) {
+        if (!newval && oldval) {
+          scope.searchStr = '';
+        }
+      });
+
       scope.clearSelection = function() {
         scope.$emit('angucomplete-alt:clearInput');
         $timeout(function() {
@@ -151,7 +157,7 @@
             scope.searchStr = newval;
           } else {
             if (console && console.error) {
-              console.error('Tried to set ' + (!!initial ? 'initial' : '') + ' value of angucomplete to', newval, 'which is an invalid value');
+              console.error('Tried to set ' + (initial ? 'initial' : '') + ' value of angucomplete to', newval, 'which is an invalid value');
             }
           }
 
@@ -214,7 +220,7 @@
       function extractValue(obj, key) {
         var keys, result;
         if (key) {
-          keys= key.split('.');
+          keys = key.split('.');
           result = obj;
           for (var i = 0; i < keys.length; i++) {
             result = result[keys[i]];
@@ -231,12 +237,12 @@
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
         // Escape user input to be treated as a literal string within a regular expression
         re = new RegExp(str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
-        if (!target) { return; }
+        if (!target) { return null; }
         if (!target.match || !target.replace) { target = target.toString(); }
         matches = target.match(re);
         if (matches) {
           result = target.replace(re,
-              '<span class="'+ scope.matchClass +'">'+ matches[0] +'</span>');
+              '<span class="' + scope.matchClass + '">' + matches[0] + '</span>');
         }
         else {
           result = target;
@@ -484,7 +490,7 @@
           params = {params: scope.remoteUrlRequestFormatter(str)};
           url = scope.remoteUrl;
         }
-        if (!!scope.remoteUrlRequestWithCredentials) {
+        if (scope.remoteUrlRequestWithCredentials) {
           params.withCredentials = true;
         }
         cancelHttpRequest();
@@ -701,6 +707,10 @@
         else {
           scope.searchStr = result.title;
         }
+        if(scope.focusNextInput) {
+          angular.element(scope.focusNextInput).focus();
+        }
+
         callOrAssign(result);
         clearResults();
       };
@@ -819,7 +829,8 @@
         focusFirst: '@',
         parseInput: '&',
         searchStr: '=',
-        onAddNewClick: '&'
+        onAddNewClick: '&',
+        focusNextInput: '@'
       },
       templateUrl: function(element, attrs) {
         return attrs.templateUrl || TEMPLATE_URL;
