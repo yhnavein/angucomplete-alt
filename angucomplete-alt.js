@@ -182,7 +182,7 @@
           scope.selectedObject(value);
         }
         else {
-          scope.selectedObject = value;
+          scope.selectedObject = (value ? value.originalObject : null);
         }
 
         if (value) {
