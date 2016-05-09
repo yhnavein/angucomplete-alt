@@ -61,8 +61,8 @@
         '  </div>' +
         '  <div class="controls">' +
         '    <span class="angucomplete-loading" ng-show="searching"></span>' +
-        '    <a class="angucomplete-clear" ng-show="selectedObject" ng-click="clearSelection()"><i class="fa fa-times"></i></a>' +
-        '    <a class="angucomplete-add-new" ng-show="!selectedObject && searchStr.length > 0" ng-click="onAddNewClick()"><i class="fa fa-plus"></i></a>' +
+        '    <a class="angucomplete-clear" ng-show="selectedObject" ng-click="clearSelection()"><i class="material-icon md-bold">clear</i></a>' +
+        '    <a class="angucomplete-add-new" ng-show="!selectedObject && searchStr.length > 0" ng-click="onAddNewClick()"><i class="material-icon md-bold">add</i></a>' +
         '  </div>' +
         '</div>'
     );
@@ -123,6 +123,8 @@
       scope.$watch('selectedObject', function(newval, oldval) {
         if (!newval && oldval) {
           scope.searchStr = '';
+        } else if (newval) {
+          scope.searchStr = newval.name;
         }
       });
 
